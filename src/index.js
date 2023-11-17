@@ -56,6 +56,12 @@ app.get("/hello", function (req, res) {
 // app.post("/api");
 
 // listen for requests :)
-const listener = app.listen(process.env.PORT, function () {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+const listener = app.listen(
+  {
+    host: "0.0.0.0",
+    port: process.env.PORT,
+  },
+  function () {
+    console.log("Your app is listening on port " + listener.address().port);
+  }
+);
