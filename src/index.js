@@ -19,7 +19,7 @@ app.use(express.static("../public"));
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
   // '/opt/render/project/src/src../views/index.html'
-  res.sendFile(__dirname + "/views/index.html");
+  res.sendFile(__dirname.replace("/src", "") + "/views/index.html");
 });
 
 // your first API endpoint...
