@@ -4,7 +4,7 @@ const Url = require("../models/url");
 const listAllUrls = async () => {
   await databaseConnection();
 
-  const urls = await Url.find();
+  const urls = await Url.find({}, "originalUrl shortUrl -_id");
 
   return urls;
 };
@@ -12,7 +12,10 @@ const listAllUrls = async () => {
 const listOneUrl = async (shortUrl) => {
   await databaseConnection();
 
-  const url = await Url.findOne({ shortUrl: shortUrl });
+  const url = await Url.findOne(
+    { shortUrl: shortUrl },
+    "originalUrl shortUrl -_id"
+  );
 
   return url;
 };

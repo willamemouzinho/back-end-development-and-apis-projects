@@ -17,16 +17,25 @@ router.get("/", async (req, res) => {
 
 router.get("/:shortUrl", async (req, res) => {
   try {
-    // return res.status(200).send({message: "rota listAllUrls"});
-    // console.log(req.params.shortUrl);
     const url = await listOneUrl(req.params.shortUrl);
 
-    return res.status(200).send(url);
+    return res.redirect(url.originalUrl);
   } catch (error) {
     console.log("erro na rota get /api/shorturl/:id");
     return res.status(400).send(error);
   }
 });
+
+// router.get("/:shortUrl", async (req, res) => {
+//   try {
+//     const url = await listOneUrl(req.params.shortUrl);
+
+//     return res.status(200).send(url);
+//   } catch (error) {
+//     console.log("erro na rota get /api/shorturl/:id");
+//     return res.status(400).send(error);
+//   }
+// });
 
 const isValidURL = (url) => {
   const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
@@ -44,8 +53,9 @@ router.post("/", async (req, res) => {
 
   try {
     const url = await createUrl(req.body);
+    const { originalUrl, shortUrl } = url;
 
-    return res.status(201).send(url);
+    return res.status(201).send({ originalUrl, shortUrl });
   } catch (error) {
     console.log("erro na rota post /api");
     return res.status(400).send(error);
