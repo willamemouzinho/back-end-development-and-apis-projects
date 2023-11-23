@@ -29,12 +29,9 @@ router.get("/:shortUrl", async (req, res) => {
 });
 
 const isValidURL = (url) => {
-  try {
-    new URL(url);
-    return true;
-  } catch (error) {
-    return false;
-  }
+  const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+  return urlRegex.test(url);
 };
 
 router.post("/", async (req, res) => {
