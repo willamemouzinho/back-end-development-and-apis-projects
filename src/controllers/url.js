@@ -1,30 +1,56 @@
 const { Router } = require("express");
-const {
-  createUrl,
-  listUrls
-} = require("../services/url");
+const { createUrl, listOneUrl, listAllUrls } = require("../services/url");
 
 const router = Router();
 
 router.get("/", async (req, res) => {
   try {
-    // return res.status(200).send({message: "rota listUrls"});
-    const urls = await listUrls();
-    
+    // return res.status(200).send({message: "rota listAllUrls"});
+    const urls = await listAllUrls();
+
     return res.status(200).send(urls);
   } catch (error) {
-    console.log("erro na rota get /api")
+    console.log("erro na rota get /api");
     return res.status(400).send(error);
   }
 });
 
+router.get("/:shortUrl", async (req, res) => {
+  try {
+    // return res.status(200).send({message: "rota listAllUrls"});
+    // console.log(req.params.shortUrl);
+    const url = await listOneUrl(req.params.shortUrl);
+
+    return res.status(200).send(url);
+  } catch (error) {
+    console.log("erro na rota get /api/shorturl/:id");
+    return res.status(400).send(error);
+  }
+});
+
+const isValidURL = (url) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
 router.post("/", async (req, res) => {
+  const { originalUrl } = req.body;
+
+  if (!isValidURL(originalUrl))
+    return res.status(400).send({
+      error: "invalid url",
+    });
+
   try {
     const url = await createUrl(req.body);
-    
+
     return res.status(201).send(url);
   } catch (error) {
-    console.log("erro na rota post /api")
+    console.log("erro na rota post /api");
     return res.status(400).send(error);
   }
 });

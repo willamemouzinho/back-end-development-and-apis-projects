@@ -1,12 +1,20 @@
 const databaseConnection = require("../utils/database");
 const Url = require("../models/url");
 
-const listUrls = async () => {
+const listAllUrls = async () => {
   await databaseConnection();
 
   const urls = await Url.find();
 
   return urls;
+};
+
+const listOneUrl = async (shortUrl) => {
+  await databaseConnection();
+
+  const url = await Url.findOne({ shortUrl: shortUrl });
+
+  return url;
 };
 
 const createUrl = async (url) => {
@@ -35,6 +43,7 @@ const createUrl = async (url) => {
 // };
 
 module.exports = {
-  listUrls,
+  listAllUrls,
+  listOneUrl,
   createUrl,
 };

@@ -6,7 +6,7 @@ const urlController = require("./controllers/url");
 const app = express();
 
 app.use(bodyParser.json());
-app.use("/api", urlController);
+app.use("/api/shorturl", urlController);
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
